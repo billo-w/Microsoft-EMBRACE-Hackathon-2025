@@ -2,17 +2,21 @@
 <html>
 <head>
     <title>DyslexiaHelper - AI-Enhanced Text for Neurodiverse Learners</title>
-    <!-- OpenDyslexic font -->
+
     <link href="https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/open-dyslexic-regular.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: Arial, sans-serif; 
             margin: 0;
             padding: 20px;
             line-height: 1.6;
             background-color: #f9f9f9;
         }
-        
+
         .container {
             max-width: 1000px;
             margin: 0 auto;
@@ -21,18 +25,18 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        
+
         h1 {
             color: #2c3e50;
             text-align: center;
         }
-        
+
         .description {
             text-align: center;
             margin-bottom: 30px;
             color: #7f8c8d;
         }
-        
+
         textarea {
             width: 100%;
             height: 200px;
@@ -42,21 +46,25 @@
             border-radius: 5px;
             font-size: 16px;
             resize: vertical;
+            font-family: Arial, sans-serif;
         }
-        
+
         .controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            flex-wrap: wrap; 
+            gap: 15px; 
         }
-        
+
         .options {
             display: flex;
             gap: 20px;
             align-items: center;
+            flex-wrap: wrap;
         }
-        
+
         button {
             padding: 12px 25px;
             background-color: #3498db;
@@ -67,27 +75,27 @@
             font-size: 16px;
             transition: background-color 0.3s;
         }
-        
+
         button:hover {
             background-color: #2980b9;
         }
-        
+
         .checkbox-container {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        
+
         .output-container {
             margin-top: 30px;
         }
-        
+
         .tabs {
             display: flex;
-            margin-bottom: 20px;
+            margin-bottom: 0; 
             border-bottom: 1px solid #ddd;
         }
-        
+
         .tab {
             padding: 10px 20px;
             cursor: pointer;
@@ -96,128 +104,136 @@
             border-bottom: none;
             border-radius: 5px 5px 0 0;
             margin-right: 5px;
+            position: relative; 
+            bottom: -1px; 
         }
-        
+
         .tab.active {
-            background-color: white;
-            border-bottom: 2px solid white;
-            position: relative;
-            top: 1px;
+            background-color: #f9f9f9; 
+            border-bottom: 1px solid #f9f9f9; 
             font-weight: bold;
         }
-        
+
         .output {
             padding: 20px;
             min-height: 200px;
             border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
+            border-radius: 0 5px 5px 5px; 
+            background-color: #f9f9f9; 
+            word-spacing: 0.1em; 
+            letter-spacing: 0.02em; 
+            overflow-wrap: break-word; 
         }
-        
+
         .dyslexic-font {
-            font-family: 'OpenDyslexic', sans-serif;
-            font-size: 18px;
-            line-height: 1.8;
-            word-spacing: 0.2em;
-            letter-spacing: 0.05em;
+           word-spacing: 0.2em; 
+           letter-spacing: 0.05em; 
         }
-        
+
         .original-font {
-            font-family: Arial, sans-serif;
+            font-family: Arial, sans-serif; 
             font-size: 16px;
             line-height: 1.6;
         }
-        
+
         .settings-panel {
             margin-top: 20px;
-            padding: 15px;
+            padding: 20px;
             border: 1px solid #ddd;
             border-radius: 5px;
             background-color: #f5f5f5;
         }
-        
+
         .settings-title {
             margin-top: 0;
+            margin-bottom: 20px;
             font-size: 18px;
             font-weight: bold;
         }
-        
+
         .settings-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 20px;
         }
-        
+
         .setting-group {
-            margin-bottom: 15px;
+            margin-bottom: 0; 
         }
-        
+
         .setting-label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: bold;
         }
-        
+
+        .setting-group select,
+        .setting-group input[type="range"] {
+            width: 100%; 
+            box-sizing: border-box; 
+        }
+        .setting-group span {
+            display: inline-block;
+            min-width: 40px; 
+            text-align: right;
+            margin-left: 10px;
+        }
+
+
         .color-options {
             display: flex;
             gap: 10px;
         }
-        
+
         .color-option {
             width: 30px;
             height: 30px;
             border-radius: 50%;
             cursor: pointer;
             border: 2px solid transparent;
+            transition: border-color 0.2s;
         }
-        
+
         .color-option.selected {
-            border-color: #333;
+            border-color: #3498db; 
         }
-        
-        .color-cream {
-            background-color: #f9f2e2;
+        .color-option:hover {
+            border-color: #aaa;
         }
-        
-        .color-light-blue {
-            background-color: #e8f4f8;
-        }
-        
-        .color-light-green {
-            background-color: #e8f8e8;
-        }
-        
-        .color-white {
-            background-color: #ffffff;
-            border: 1px solid #ddd;
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
+
+        .color-cream { background-color: #f9f2e2; }
+        .color-light-blue { background-color: #e8f4f8; }
+        .color-light-green { background-color: #e8f8e8; }
+        .color-white { background-color: #ffffff; border: 1px solid #ddd; }
+
+        .hidden { display: none !important; } 
+
         #loading {
             text-align: center;
             margin: 20px 0;
+            font-weight: bold;
+            color: #3498db;
             display: none;
         }
-        
-        /* Responsive adjustments */
+
+
         @media (max-width: 768px) {
             .controls {
-                flex-direction: column;
-                gap: 15px;
-                align-items: flex-start;
+                
             }
-            
             .options {
-                flex-direction: column;
-                align-items: flex-start;
+                 
             }
-            
+             .tabs {
+                flex-wrap: wrap; 
+            }
             .tab {
                 padding: 8px 15px;
                 font-size: 14px;
+                margin-bottom: -1px; 
+            }
+            .settings-options {
+                 grid-template-columns: 1fr; 
             }
         }
     </style>
@@ -226,76 +242,88 @@
     <div class="container">
         <h1>DyslexiaHelper</h1>
         <p class="description">AI-enhanced text processor for neurodiverse learners</p>
-        
+
         <textarea id="input-text" placeholder="Enter or paste text here..."></textarea>
-        
+
         <div class="controls">
             <button id="process-btn">Process Text</button>
-            
+
             <div class="options">
                 <div class="checkbox-container">
                     <input type="checkbox" id="summarize-checkbox" name="summarize">
                     <label for="summarize-checkbox">Summarize Text</label>
                 </div>
-                
+
                 <button id="settings-btn" type="button">Display Settings</button>
             </div>
         </div>
-        
+
         <div id="settings-panel" class="settings-panel hidden">
             <h3 class="settings-title">Display Settings</h3>
-            
+
             <div class="settings-options">
                 <div class="setting-group">
-                    <label class="setting-label">Background Color</label>
-                    <div class="color-options">
-                        <div class="color-option color-cream selected" data-color="#f9f2e2"></div>
-                        <div class="color-option color-light-blue" data-color="#e8f4f8"></div>
-                        <div class="color-option color-light-green" data-color="#e8f8e8"></div>
-                        <div class="color-option color-white" data-color="#ffffff"></div>
+                    <label class="setting-label" for="font-choice">Font Choice</label>
+                    <select id="font-choice">
+                        <option value="'OpenDyslexic', sans-serif" selected>OpenDyslexic</option>
+                        <option value="'Atkinson Hyperlegible', sans-serif">Atkinson Hyperlegible</option>
+                        <option value="'Lexend', sans-serif">Lexend</option>
+                        <option value="'Arial', sans-serif">Arial</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                     <label class="setting-label">Background Color</label>
+                     <div class="color-options">
+                         <div class="color-option color-cream selected" data-color="#f9f2e2"></div>
+                         <div class="color-option color-light-blue" data-color="#e8f4f8"></div>
+                         <div class="color-option color-light-green" data-color="#e8f8e8"></div>
+                         <div class="color-option color-white" data-color="#ffffff"></div>
+                     </div>
+                 </div>
+
+                <div class="setting-group">
+                    <label class="setting-label" for="font-size">Font Size</label>
+                    <div>
+                        <input type="range" id="font-size" min="14" max="28" value="18" />
+                        <span id="font-size-value">18px</span>
+                     </div>
+                </div>
+
+                <div class="setting-group">
+                    <label class="setting-label" for="line-spacing">Line Spacing</label>
+                     <div>
+                        <input type="range" id="line-spacing" min="1.2" max="2.5" step="0.1" value="1.8" />
+                        <span id="line-spacing-value">1.8</span>
                     </div>
                 </div>
-                
-                <div class="setting-group">
-                    <label class="setting-label">Font Size</label>
-                    <input type="range" id="font-size" min="14" max="28" value="18" />
-                    <span id="font-size-value">18px</span>
-                </div>
-                
-                <div class="setting-group">
-                    <label class="setting-label">Line Spacing</label>
-                    <input type="range" id="line-spacing" min="1.2" max="2.5" step="0.1" value="1.8" />
-                    <span id="line-spacing-value">1.8</span>
-                </div>
             </div>
-        </div>
-        
-        <div id="loading">Processing your text...</div>
-        
+        </div><div id="loading">Processing your text...</div>
+
         <div class="output-container hidden" id="output-container">
             <div class="tabs">
                 <div class="tab active" data-tab="dyslexic">Dyslexic Friendly</div>
                 <div class="tab" data-tab="summary">Summary</div>
                 <div class="tab" data-tab="original">Original Text</div>
             </div>
-            
+
             <div id="dyslexic-tab" class="tab-content">
-                <div id="dyslexic-output" class="output dyslexic-font"></div>
+                 <div id="dyslexic-output" class="output dyslexic-font"></div>
             </div>
-            
+
             <div id="summary-tab" class="tab-content hidden">
                 <div id="summary-output" class="output dyslexic-font"></div>
             </div>
-            
+
             <div id="original-tab" class="tab-content hidden">
-                <div id="original-output" class="output original-font"></div>
+                 <div id="original-output" class="output original-font"></div>
             </div>
         </div>
     </div>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Elements
+          
             const inputText = document.getElementById('input-text');
             const processBtn = document.getElementById('process-btn');
             const summarizeCheckbox = document.getElementById('summarize-checkbox');
@@ -306,79 +334,93 @@
             const dyslexicOutput = document.getElementById('dyslexic-output');
             const summaryOutput = document.getElementById('summary-output');
             const originalOutput = document.getElementById('original-output');
-            
-            // Settings elements
+
+           
+            const fontChoice = document.getElementById('font-choice'); // New
             const colorOptions = document.querySelectorAll('.color-option');
             const fontSizeSlider = document.getElementById('font-size');
             const fontSizeValue = document.getElementById('font-size-value');
             const lineSpacingSlider = document.getElementById('line-spacing');
             const lineSpacingValue = document.getElementById('line-spacing-value');
+
             
-            // Toggle settings panel
+            function applyStyles() {
+                const selectedFont = fontChoice.value;
+                const selectedColorOption = document.querySelector('.color-option.selected');
+                const selectedColor = selectedColorOption ? selectedColorOption.getAttribute('data-color') : '#f9f2e2'; 
+                const selectedSize = fontSizeSlider.value;
+                const selectedSpacing = lineSpacingSlider.value;
+
+                const elementsToStyle = [dyslexicOutput, summaryOutput];
+
+                elementsToStyle.forEach(el => {
+                    if (el) { 
+                        el.style.fontFamily = selectedFont;
+                        el.style.backgroundColor = selectedColor;
+                        el.style.fontSize = `${selectedSize}px`;
+                        el.style.lineHeight = selectedSpacing;
+                    }
+                });
+
+                
+                fontSizeValue.textContent = `${selectedSize}px`;
+                lineSpacingValue.textContent = selectedSpacing;
+            }
+
+            
             settingsBtn.addEventListener('click', function() {
                 settingsPanel.classList.toggle('hidden');
             });
+
             
-            // Color options
+            fontChoice.addEventListener('change', applyStyles); 
+
+            
             colorOptions.forEach(option => {
                 option.addEventListener('click', function() {
+                    
                     colorOptions.forEach(opt => opt.classList.remove('selected'));
                     this.classList.add('selected');
-                    
-                    const color = this.getAttribute('data-color');
-                    dyslexicOutput.style.backgroundColor = color;
-                    summaryOutput.style.backgroundColor = color;
+                    applyStyles();
                 });
             });
+
             
-            // Font size slider
-            fontSizeSlider.addEventListener('input', function() {
-                const size = this.value;
-                fontSizeValue.textContent = `${size}px`;
-                dyslexicOutput.style.fontSize = `${size}px`;
-                summaryOutput.style.fontSize = `${size}px`;
-            });
-            
-            // Line spacing slider
-            lineSpacingSlider.addEventListener('input', function() {
-                const spacing = this.value;
-                lineSpacingValue.textContent = spacing;
-                dyslexicOutput.style.lineHeight = spacing;
-                summaryOutput.style.lineHeight = spacing;
-            });
-            
-            // Tab switching
+            fontSizeSlider.addEventListener('input', applyStyles);
+           
+            lineSpacingSlider.addEventListener('input', applyStyles);
+           
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.addEventListener('click', function() {
                     const tabId = this.getAttribute('data-tab');
-                    
-                    // Update active tab
-                    document.querySelectorAll('.tab').forEach(t => {
-                        t.classList.remove('active');
-                    });
+
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
                     
-                    // Show selected tab content
                     document.querySelectorAll('.tab-content').forEach(content => {
                         content.classList.add('hidden');
                     });
-                    document.getElementById(`${tabId}-tab`).classList.remove('hidden');
+                    const activeTabContent = document.getElementById(`${tabId}-tab`);
+                    if (activeTabContent) {
+                        activeTabContent.classList.remove('hidden');
+                    }
                 });
             });
-            
-            // Process text
+
             processBtn.addEventListener('click', function() {
                 const text = inputText.value.trim();
-                
+
                 if (!text) {
                     alert('Please enter some text first');
                     return;
                 }
-                
+
                 loading.style.display = 'block';
                 outputContainer.classList.add('hidden');
-                
-                fetch('/process', {
+
+                const backendUrl = 'https://dyslexia-helper-n9vtk.ondigitalocean.app/'; 
+
+                fetch(backendUrl, { 
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -388,35 +430,51 @@
                         summarize: summarizeCheckbox.checked
                     }),
                 })
-                .then(response => response.json())
-                .then(data => {
-                    // Display processed text
-                    dyslexicOutput.textContent = data.processed_text;
-                    originalOutput.textContent = data.original_text;
-                    
-                    // Handle summary
-                    if (data.summary) {
-                        summaryOutput.textContent = data.summary;
-                        document.querySelector('[data-tab="summary"]').style.display = 'block';
-                    } else {
-                        summaryOutput.textContent = 'No summary generated. Please enable summarization to see a summary.';
-                        document.querySelector('[data-tab="summary"]').style.display = 'block';
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
                     }
-                    
-                    // Show output container
-                    outputContainer.classList.remove('hidden');
-                    loading.style.display = 'none';
+                    return response.json();
+                })
+                .then(data => {
+                    if (data && data.processed_text !== undefined && data.original_text !== undefined) {
+                        dyslexicOutput.textContent = data.processed_text;
+                        originalOutput.textContent = data.original_text;
+
+                        const summaryTab = document.querySelector('[data-tab="summary"]');
+                        if (data.summary) {
+                            summaryOutput.textContent = data.summary;
+                            if (summaryTab) summaryTab.style.display = 'inline-block'; // Show tab if summary exists
+                        } else {
+                            summaryOutput.textContent = summarizeCheckbox.checked ? 'Summary could not be generated.' : 'Summarization was not enabled.';
+                            if (summaryTab) summaryTab.style.display = summarizeCheckbox.checked ? 'inline-block' : 'none'; // Show tab only if requested
+                        }
+
+                        applyStyles();
+
+                        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                        document.querySelector('[data-tab="dyslexic"]').classList.add('active');
+                        document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+                        document.getElementById('dyslexic-tab').classList.remove('hidden');
+
+
+                        outputContainer.classList.remove('hidden');
+                    } else {
+                         console.error('Received unexpected data format:', data);
+                         alert('Received unexpected data from the server. Please check console.');
+                    }
                 })
                 .catch((error) => {
-                    console.error('Error:', error);
-                    alert('An error occurred. Please try again.');
+                    console.error('Error fetching or processing:', error);
+                    alert(`An error occurred: ${error.message}. Please check the console for details.`);
+                })
+                .finally(() => {
                     loading.style.display = 'none';
                 });
             });
-            
-            // Apply initial settings
-            dyslexicOutput.style.backgroundColor = '#f9f2e2';
-            summaryOutput.style.backgroundColor = '#f9f2e2';
+
+            applyStyles();
+
         });
     </script>
 </body>
