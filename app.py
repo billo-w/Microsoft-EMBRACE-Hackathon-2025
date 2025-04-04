@@ -60,7 +60,7 @@ def generate_summary(text):
     
     try:
         response = requests.post(
-            f"{api_endpoint}/openai/deployments/{model_name}/chat/completions?api-version={api_version}",
+            f"{api_endpoint_val.strip('/')}/openai/deployments/{model_name_val}/chat/completions?api-version={api_version_val}",
             headers=headers,
             json=payload
         )
