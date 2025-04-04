@@ -9,6 +9,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@100..900&display=swap" rel="stylesheet">
 
     <style>
+        @font-face {
+              font-family: 'Fast Sans'; 
+              src: url('/static/fonts/Fast_Sans.woff2') format('woff2'), 
+              font-weight: normal;
+              font-style: normal;
+              font-display: swap;
+        }
+
+        
         body {
             font-family: Arial, sans-serif; 
             margin: 0;
@@ -266,6 +275,7 @@
                     <label class="setting-label" for="font-choice">Font Choice</label>
                     <select id="font-choice">
                         <option value="'OpenDyslexic', sans-serif" selected>OpenDyslexic</option>
+                        <option value="'Fast Sans', 'Arial', sans-serif">Fast Sans</option>
                         <option value="'Atkinson Hyperlegible', sans-serif">Atkinson Hyperlegible</option>
                         <option value="'Lexend', sans-serif">Lexend</option>
                         <option value="'Arial', sans-serif">Arial</option>
