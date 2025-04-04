@@ -418,7 +418,7 @@
                 loading.style.display = 'block';
                 outputContainer.classList.add('hidden');
 
-                const backendUrl = 'https://dyslexia-helper-n9vtk.ondigitalocean.app/'; 
+                const backendUrl = 'https://dyslexia-helper-n9vtk.ondigitalocean.app/process'; 
 
                 fetch(backendUrl, { 
                     method: 'POST',
@@ -444,10 +444,10 @@
                         const summaryTab = document.querySelector('[data-tab="summary"]');
                         if (data.summary) {
                             summaryOutput.textContent = data.summary;
-                            if (summaryTab) summaryTab.style.display = 'inline-block'; // Show tab if summary exists
+                            if (summaryTab) summaryTab.style.display = 'inline-block'; 
                         } else {
                             summaryOutput.textContent = summarizeCheckbox.checked ? 'Summary could not be generated.' : 'Summarization was not enabled.';
-                            if (summaryTab) summaryTab.style.display = summarizeCheckbox.checked ? 'inline-block' : 'none'; // Show tab only if requested
+                            if (summaryTab) summaryTab.style.display = summarizeCheckbox.checked ? 'inline-block' : 'none'; 
                         }
 
                         applyStyles();
