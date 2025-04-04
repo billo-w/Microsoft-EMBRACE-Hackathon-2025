@@ -8,6 +8,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@100..900&display=swap" rel="stylesheet">
 
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.11/dist/purify.min.js"></script>
+
     <style>
         @font-face {
               font-family: 'Fast Sans'; 
@@ -449,11 +453,20 @@
                 .then(data => {
                     if (data && data.processed_text !== undefined && data.original_text !== undefined) {
                         dyslexicOutput.textContent = data.processed_text;
+                        const processedMarkdown = data.processed_text || ''; // Handle potential null
+                        const processedHtml = marked.parse(processedMarkdown); // Convert Markdown to HTML
+                        const sanitizedProcessedHtml = DOMPurify.sanitize(processedHtml); // Sanitize
+                        dyslexicOutput.innerHTML = sanitizedProcessedHtml;
+
                         originalOutput.textContent = data.original_text;
 
                         const summaryTab = document.querySelector('[data-tab="summary"]');
+                        let summaryContent = ''
                         if (data.summary) {
-                            summaryOutput.textContent = data.summary;
+                            const summaryMarkdown = data.summary;
+                            const summaryHtml = marked.parse(summaryMarkdown);
+                            const sanitizedSummaryHtml = DOMPurify.sanitize(summaryHtml);
+                            summaryOutput.innerHTML = sanitizedSummaryHtml;
                             if (summaryTab) summaryTab.style.display = 'inline-block'; 
                         } else {
                             summaryOutput.textContent = summarizeCheckbox.checked ? 'Summary could not be generated.' : 'Summarization was not enabled.';
