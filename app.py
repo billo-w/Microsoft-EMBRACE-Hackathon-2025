@@ -18,11 +18,16 @@ model_name = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME")
 def index():
     return render_template('index.html')
 
+MAX_INPUT_LENGTH = 10000
+
 @app.route('/process', methods=['POST'])
 def process_text():
     data = request.json
     input_text = data.get('text', '')
     summarize = data.get('summarize', False)
+
+    if len(input_text) > MAX_INPUT_LENGTH:
+        return jsonify({"error": "Input text too long."}), 413
     
     result = input_text  # Default is just the original text
     summary = None
