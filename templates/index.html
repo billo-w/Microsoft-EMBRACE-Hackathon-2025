@@ -1,1 +1,423 @@
-
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DyslexiaHelper - AI-Enhanced Text for Neurodiverse Learners</title>
+    <!-- OpenDyslexic font -->
+    <link href="https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/open-dyslexic-regular.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        .description {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #7f8c8d;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            resize: vertical;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .options {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        button {
+            padding: 12px 25px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .output-container {
+            margin-top: 30px;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+        
+        .tab.active {
+            background-color: white;
+            border-bottom: 2px solid white;
+            position: relative;
+            top: 1px;
+            font-weight: bold;
+        }
+        
+        .output {
+            padding: 20px;
+            min-height: 200px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        
+        .dyslexic-font {
+            font-family: 'OpenDyslexic', sans-serif;
+            font-size: 18px;
+            line-height: 1.8;
+            word-spacing: 0.2em;
+            letter-spacing: 0.05em;
+        }
+        
+        .original-font {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .settings-panel {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f5f5f5;
+        }
+        
+        .settings-title {
+            margin-top: 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .settings-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .setting-group {
+            margin-bottom: 15px;
+        }
+        
+        .setting-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .color-options {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .color-option.selected {
+            border-color: #333;
+        }
+        
+        .color-cream {
+            background-color: #f9f2e2;
+        }
+        
+        .color-light-blue {
+            background-color: #e8f4f8;
+        }
+        
+        .color-light-green {
+            background-color: #e8f8e8;
+        }
+        
+        .color-white {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        #loading {
+            text-align: center;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .options {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .tab {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DyslexiaHelper</h1>
+        <p class="description">AI-enhanced text processor for neurodiverse learners</p>
+        
+        <textarea id="input-text" placeholder="Enter or paste text here..."></textarea>
+        
+        <div class="controls">
+            <button id="process-btn">Process Text</button>
+            
+            <div class="options">
+                <div class="checkbox-container">
+                    <input type="checkbox" id="summarize-checkbox" name="summarize">
+                    <label for="summarize-checkbox">Summarize Text</label>
+                </div>
+                
+                <button id="settings-btn" type="button">Display Settings</button>
+            </div>
+        </div>
+        
+        <div id="settings-panel" class="settings-panel hidden">
+            <h3 class="settings-title">Display Settings</h3>
+            
+            <div class="settings-options">
+                <div class="setting-group">
+                    <label class="setting-label">Background Color</label>
+                    <div class="color-options">
+                        <div class="color-option color-cream selected" data-color="#f9f2e2"></div>
+                        <div class="color-option color-light-blue" data-color="#e8f4f8"></div>
+                        <div class="color-option color-light-green" data-color="#e8f8e8"></div>
+                        <div class="color-option color-white" data-color="#ffffff"></div>
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <label class="setting-label">Font Size</label>
+                    <input type="range" id="font-size" min="14" max="28" value="18" />
+                    <span id="font-size-value">18px</span>
+                </div>
+                
+                <div class="setting-group">
+                    <label class="setting-label">Line Spacing</label>
+                    <input type="range" id="line-spacing" min="1.2" max="2.5" step="0.1" value="1.8" />
+                    <span id="line-spacing-value">1.8</span>
+                </div>
+            </div>
+        </div>
+        
+        <div id="loading">Processing your text...</div>
+        
+        <div class="output-container hidden" id="output-container">
+            <div class="tabs">
+                <div class="tab active" data-tab="dyslexic">Dyslexic Friendly</div>
+                <div class="tab" data-tab="summary">Summary</div>
+                <div class="tab" data-tab="original">Original Text</div>
+            </div>
+            
+            <div id="dyslexic-tab" class="tab-content">
+                <div id="dyslexic-output" class="output dyslexic-font"></div>
+            </div>
+            
+            <div id="summary-tab" class="tab-content hidden">
+                <div id="summary-output" class="output dyslexic-font"></div>
+            </div>
+            
+            <div id="original-tab" class="tab-content hidden">
+                <div id="original-output" class="output original-font"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const inputText = document.getElementById('input-text');
+            const processBtn = document.getElementById('process-btn');
+            const summarizeCheckbox = document.getElementById('summarize-checkbox');
+            const settingsBtn = document.getElementById('settings-btn');
+            const settingsPanel = document.getElementById('settings-panel');
+            const loading = document.getElementById('loading');
+            const outputContainer = document.getElementById('output-container');
+            const dyslexicOutput = document.getElementById('dyslexic-output');
+            const summaryOutput = document.getElementById('summary-output');
+            const originalOutput = document.getElementById('original-output');
+            
+            // Settings elements
+            const colorOptions = document.querySelectorAll('.color-option');
+            const fontSizeSlider = document.getElementById('font-size');
+            const fontSizeValue = document.getElementById('font-size-value');
+            const lineSpacingSlider = document.getElementById('line-spacing');
+            const lineSpacingValue = document.getElementById('line-spacing-value');
+            
+            // Toggle settings panel
+            settingsBtn.addEventListener('click', function() {
+                settingsPanel.classList.toggle('hidden');
+            });
+            
+            // Color options
+            colorOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    colorOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    const color = this.getAttribute('data-color');
+                    dyslexicOutput.style.backgroundColor = color;
+                    summaryOutput.style.backgroundColor = color;
+                });
+            });
+            
+            // Font size slider
+            fontSizeSlider.addEventListener('input', function() {
+                const size = this.value;
+                fontSizeValue.textContent = `${size}px`;
+                dyslexicOutput.style.fontSize = `${size}px`;
+                summaryOutput.style.fontSize = `${size}px`;
+            });
+            
+            // Line spacing slider
+            lineSpacingSlider.addEventListener('input', function() {
+                const spacing = this.value;
+                lineSpacingValue.textContent = spacing;
+                dyslexicOutput.style.lineHeight = spacing;
+                summaryOutput.style.lineHeight = spacing;
+            });
+            
+            // Tab switching
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Update active tab
+                    document.querySelectorAll('.tab').forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Show selected tab content
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.add('hidden');
+                    });
+                    document.getElementById(`${tabId}-tab`).classList.remove('hidden');
+                });
+            });
+            
+            // Process text
+            processBtn.addEventListener('click', function() {
+                const text = inputText.value.trim();
+                
+                if (!text) {
+                    alert('Please enter some text first');
+                    return;
+                }
+                
+                loading.style.display = 'block';
+                outputContainer.classList.add('hidden');
+                
+                fetch('/process', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        text: text,
+                        summarize: summarizeCheckbox.checked
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Display processed text
+                    dyslexicOutput.textContent = data.processed_text;
+                    originalOutput.textContent = data.original_text;
+                    
+                    // Handle summary
+                    if (data.summary) {
+                        summaryOutput.textContent = data.summary;
+                        document.querySelector('[data-tab="summary"]').style.display = 'block';
+                    } else {
+                        summaryOutput.textContent = 'No summary generated. Please enable summarization to see a summary.';
+                        document.querySelector('[data-tab="summary"]').style.display = 'block';
+                    }
+                    
+                    // Show output container
+                    outputContainer.classList.remove('hidden');
+                    loading.style.display = 'none';
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                    loading.style.display = 'none';
+                });
+            });
+            
+            // Apply initial settings
+            dyslexicOutput.style.backgroundColor = '#f9f2e2';
+            summaryOutput.style.backgroundColor = '#f9f2e2';
+        });
+    </script>
+</body>
+</html>
