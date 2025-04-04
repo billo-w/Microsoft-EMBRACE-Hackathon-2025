@@ -5,8 +5,7 @@ import requests
 import json
 
 app = Flask(__name__)
-# Enable CORS for all origins for simplicity, or restrict it later
-# Allow requests from your GitHub Pages URL
+
 CORS(app, resources={r"/process": {"origins": "https://dyslexiahelper.uk"}})
 
 api_key = os.getenv("AZURE_OPENAI_API_KEY")
@@ -29,7 +28,7 @@ def process_text():
     if len(input_text) > MAX_INPUT_LENGTH:
         return jsonify({"error": "Input text too long."}), 413
     
-    result = input_text  # Default is just the original text
+    result = input_text  
     summary = None
     
     if summarize:
@@ -49,10 +48,16 @@ def generate_summary(text):
         "api-key": api_key
     }
     
-    # Create prompt for summarization
-    system_message = """You are an AI assistant specialized in helping dyslexic learners. 
-    Your task is to summarize text in a clear, concise way that is easy to read and understand for people with dyslexia.
-    Use simple language, short sentences, and clear structure."""
+    system_message = """You are an expert AI assistant transforming text into highly readable summaries for individuals with dyslexia. Your primary goal is clarity and ease of reading. Please summarize the provided text following these specific instructions:
+
+* **Core Task:** Provide a concise summary, capturing the main points accurately.
+* **Language Style:** Use simple, everyday vocabulary. Employ active voice whenever possible. Keep sentences short, clear, and direct (ideally under 15 words).
+* **Formatting for Readability:**
+    * Break text into short paragraphs (max 2-3 sentences each). Ensure generous spacing between paragraphs (output as separate paragraphs).
+    * Utilize bullet points (`* `) or numbered lists (`1. `) frequently to present information clearly, especially for lists, steps, or key features.
+    * Use **bold text** strategically and sparingly to emphasize essential terms or main ideas. Do *not* use italics or underlining.
+* **Output Format:** Generate the output using standard Markdown formatting for lists and bold text.
+* **Overall Tone:** Maintain a helpful and direct tone."""
     
     payload = {
         "messages": [
