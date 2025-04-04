@@ -7,7 +7,7 @@ import json
 app = Flask(__name__)
 # Enable CORS for all origins for simplicity, or restrict it later
 # Allow requests from your GitHub Pages URL
-CORS(app, resources={r"/process": {"origins": "https://billo-w.github.io"}})
+CORS(app, resources={r"/process": {"origins": "'https://dyslexiahelper.uk/process'"}})
 
 api_key = os.getenv("AZURE_OPENAI_API_KEY")
 api_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
