@@ -11,8 +11,8 @@ CORS(app, resources={r"/process": {"origins": "https://billo-w.github.io"}})
 
 api_key = os.getenv("AZURE_OPENAI_API_KEY")
 api_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
-api_version = "2024-07-18" 
-model_name = "gpt-4o-mini"
+api_version = os.getenv("AZURE_OPENAI_VERSION")
+model_name = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME")
 
 @app.route('/')
 def index():
