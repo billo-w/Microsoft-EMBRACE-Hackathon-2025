@@ -4,6 +4,10 @@
 
 DyslexiaHelper is an AI-powered web application designed to enhance reading accessibility for neurodiverse learners, particularly individuals with dyslexia. It transforms standard text into more manageable and readable formats using Azure OpenAI.
 
+Try by visiting this link!
+
+dyslexiahelper.uk
+
 ## Key Features
 
 * **AI-Powered Summarization & Reformatting:** Takes user input text and uses AI to:
