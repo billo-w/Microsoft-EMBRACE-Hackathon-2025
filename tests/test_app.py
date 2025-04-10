@@ -1,7 +1,7 @@
 import pytest
 import json
 from unittest.mock import patch
-from app import app as flask_app
+from app import app.py as flask_app
 
 @pytest.fixture
 def app():
