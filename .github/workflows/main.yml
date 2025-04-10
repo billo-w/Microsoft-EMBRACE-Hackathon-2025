@@ -44,7 +44,23 @@ jobs:
         FLASK_ENV: testing
       run: |
         pytest tests/ # Command to run your tests located in the tests/ directory
+        
+    - name: Prepare deployment artifact
+      run: |
+          mkdir deployment_package 
+          cp app.py deployment_package/
+          cp requirements.txt deployment_package/
+          cp -r templates deployment_package/
+          mkdir -p deployment_package/static/
+          cp -r static/fonts deployment_package/static/
+          echo "Artifact contents:"
+          ls -lR deployment_package
 
+    - name: Upload deployment artifact
+      uses: actions/upload-artifact@v4
+      with:
+          name: deployment-package 
+          path: deployment_package/
   deploy:
     name: Deploy to Production
     needs: test # This job runs only if the 'test' job succeeds
@@ -54,13 +70,53 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
-    - name: Checkout code
+    - name: Download deployment artifact
+      uses: actions/download-artifact@v4
+      with:
+          name: deployment-package # Name of the artifact to download
+          # It will be downloaded into the workspace root
+
+    - name: List downloaded artifact contents
+      run: |
+          echo "Downloaded artifact contents:"
+          ls -lR . # List contents of the workspace (should contain artifact files)
+
+    - name: Set up Git, create commit, and push artifact
+        # We need checkout V4 to ensure Git context is set up correctly
+        # even though we don't use the checked-out files directly here.
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0 # Fetch all history so we can push correctly
+          # We don't need the repo contents, just the .git dir for push auth
+          fetch-depth: 1
+    - run: |
+          # Configure Git user
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-    - name: Push to deploy branch
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git push --force origin HEAD:refs/heads/production
+          # Create a new orphan branch in the local repo.
+          # An orphan branch starts fresh, with no history.
+          git checkout --orphan temp-deploy-branch
+
+          # Remove any files checked out by actions/checkout (like README, .gitattributes)
+          # The '.' matches everything except files starting with '.' in the root
+          # The '.??*' matches files starting with '.' but not '.' or '..'
+          # This ensures we clear the slate before adding artifact contents.
+          git rm -rf . .??*
+
+          # Copy the downloaded artifact contents into the main directory
+          # Using rsync is robust for copying contents. The trailing slashes are important.
+          # Note: The download action places files directly in the workspace.
+          # So we just need to stage them after cleaning the orphan branch.
+          # No need for cp/rsync if download action puts files in root. Let's adjust.
+
+          # --- Revised Git staging after realizing download-artifact puts files in root ---
+          # After checking out the orphan branch and removing tracked files,
+          # the artifact files downloaded earlier are now untracked. Stage them.
+          git add .
+
+          # Commit the artifact contents
+          git commit -m "Deploy artifact from commit ${{ github.sha }}"
+
+          # Force-push the temporary local branch to the remote 'deploy' branch
+          # This overwrites the 'deploy' branch with only the artifact contents
+          git push --force origin temp-deploy-branch:deploy
