@@ -92,31 +92,8 @@ jobs:
           # Configure Git user
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
-          # Create a new orphan branch in the local repo.
-          # An orphan branch starts fresh, with no history.
-          git checkout --orphan temp-deploy-branch
-
-          # Remove any files checked out by actions/checkout (like README, .gitattributes)
-          # The '.' matches everything except files starting with '.' in the root
-          # The '.??*' matches files starting with '.' but not '.' or '..'
-          # This ensures we clear the slate before adding artifact contents.
-          git rm -rf . .??*
-
-          # Copy the downloaded artifact contents into the main directory
-          # Using rsync is robust for copying contents. The trailing slashes are important.
-          # Note: The download action places files directly in the workspace.
-          # So we just need to stage them after cleaning the orphan branch.
-          # No need for cp/rsync if download action puts files in root. Let's adjust.
-
-          # --- Revised Git staging after realizing download-artifact puts files in root ---
-          # After checking out the orphan branch and removing tracked files,
-          # the artifact files downloaded earlier are now untracked. Stage them.
+          git checkout --orphan temp-deploy-branch       
+          git clean -fdx
           git add .
-
-          # Commit the artifact contents
           git commit -m "Deploy artifact from commit ${{ github.sha }}"
-
-          # Force-push the temporary local branch to the remote 'deploy' branch
-          # This overwrites the 'deploy' branch with only the artifact contents
           git push --force origin temp-deploy-branch:deploy
