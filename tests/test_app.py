@@ -6,10 +6,10 @@ from app import app as flask_app
 @pytest.fixture
 def app():
     flask_app.config.update({"TESTING": True})
-    flask_app.config['AZURE_OPENAI_API_KEY'] = 'dummy_key'
-    flask_app.config['AZURE_OPENAI_ENDPOINT'] = 'dummy_endpoint'
-    flask_app.config['AZURE_OPENAI_VERSION'] = 'dummy_version'
-    flask_app.config['AZURE_OPENAI_DEPLOYMENT_NAME'] = 'dummy_model'
+    flask_app.config['AZURE_OPENAI_API_KEY']
+    flask_app.config['AZURE_OPENAI_ENDPOINT']
+    flask_app.config['AZURE_OPENAI_VERSION']
+    flask_app.config['AZURE_OPENAI_DEPLOYMENT_NAME']
     yield flask_app
 
 @pytest.fixture
