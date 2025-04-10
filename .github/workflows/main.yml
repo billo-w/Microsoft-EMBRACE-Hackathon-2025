@@ -92,8 +92,8 @@ jobs:
           # Configure Git user
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git checkout --orphan temp-deploy-branch       
+          git checkout --orphan temp-production-branch       
           git clean -fdx
           git add .
           git commit -m "Deploy artifact from commit ${{ github.sha }}"
-          git push --force origin temp-deploy-branch:deploy
+          git push --force origin temp-production-branch:production
