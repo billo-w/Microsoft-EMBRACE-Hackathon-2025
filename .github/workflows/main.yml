@@ -7,7 +7,10 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
+    
+permissions:
+  contents: write
+  
 jobs:
   test:
     name: Build and Test
@@ -61,6 +64,3 @@ jobs:
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git push --force origin HEAD:refs/heads/production
-      env:
-        # The default GITHUB_TOKEN has push access to the repo
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
